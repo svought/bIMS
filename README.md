@@ -35,7 +35,10 @@ Database Design <br />
 https://user-images.githubusercontent.com/42819077/230560467-d451148d-92ac-4287-b060-32e8a7c26222.jpg <br /><br />
 
 Database <br />
-https://user-images.githubusercontent.com/42819077/230562145-e7be64b4-a214-4b07-829b-89de1dae6160.png <br />
+https://user-images.githubusercontent.com/42819077/230562145-e7be64b4-a214-4b07-829b-89de1dae6160.png <br /><br />
+
+Read method working.<br />
+https://user-images.githubusercontent.com/42819077/230700477-581d5543-08f6-4d57-9dd0-d5e212ec66b5.png <br /><br />
 
 <h2>Conclusion</h2>
 Yet to be determined, still working on and enjoying this project. Will update this section in the future.
