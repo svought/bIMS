@@ -42,7 +42,7 @@ public class bIMS {
 
             //TODO Add ManufacturerName to header
             if (tableName == "items") {
-                sql = "SELECT items.ItemID, items.Name, items.Cost, items.Cost, items.Quantity, items.Location, manufacturers.ManufacturerName " +
+                sql = "SELECT items.ItemID, items.ItemName, items.Cost, items.Cost, items.Quantity, items.Location, manufacturers.ManufacturerName " +
                         "FROM items INNER JOIN manufacturers ON items.ManufacturerID=manufacturers.ManufacturerID;";
             } else {
                 sql = "SELECT * FROM " + tableName;
@@ -83,12 +83,95 @@ public class bIMS {
         }
     }
 
-    private static void Update() {
+    private static void Update(String tableName) {
         // Code to update record(s) in database
     }
 
-    private static void Delete() {
+    private static void Delete(String tableName, String recordName) {
         // Code to delete record(s) from database
+
+        // Try to connect to database using username and password
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection conn = DriverManager.getConnection(url, user, password);
+
+            // Create record column based on given table name
+            String recordColumn;
+            switch (tableName){
+                case "items":
+                    recordColumn = "ItemName";
+                    break;
+                case "manufacturers":
+                    recordColumn = "ManufacturerName";
+                    break;
+                case "users":
+                    recordColumn = "UserName";
+                    break;
+                default:
+                    System.out.println("Could not locate a column in " + tableName + " table to remove " + recordName);
+                    return;
+            }
+
+            String sql = "DELETE FROM " + tableName + " WHERE " + recordColumn + "='" + recordName + "';";
+
+            // Execute a select all statement as a test
+            Statement statement = conn.createStatement();
+            statement.execute(sql);
+
+            // Print results
+            System.out.println("Successfully deleted " + recordName + " from " + tableName);
+
+            // Close connection
+            conn.close();
+        } catch (ClassNotFoundException | SQLException ex) {
+            System.out.println("SQLException: " + ex.getMessage());
+            throw new RuntimeException(ex);
+        }
+    }
+
+    private static void Delete(String tableName, int recordID) {
+        // Code to delete record(s) from database
+
+        // Try to connect to database using username and password
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection conn = DriverManager.getConnection(url, user, password);
+
+            // Create record column based on given table name
+            String recordColumn;
+            switch (tableName){
+                case "items":
+                    recordColumn = "ItemID";
+                    break;
+                case "manufacturers":
+                    recordColumn = "ManufacturerID";
+                    break;
+                case "Orders":
+                    recordColumn = "OrderID";
+                    break;
+                case "users":
+                    recordColumn = "UserID";
+                    break;
+                default:
+                    System.out.println("Could not locate a column in " + tableName + " table to remove " + recordID);
+                    return;
+            }
+
+            String sql = "DELETE FROM " + tableName + " WHERE " + recordColumn + "='" + recordID + "';";
+
+            // Execute a select all statement as a test
+            Statement statement = conn.createStatement();
+            statement.execute(sql);
+
+            // Print results
+            System.out.println("Successfully deleted " + recordID + " from " + tableName);
+
+            // Close connection
+            conn.close();
+        } catch (ClassNotFoundException | SQLException ex) {
+            System.out.println("SQLException: " + ex.getMessage());
+            throw new RuntimeException(ex);
+        }
     }
 
     private static void bIMSDriver() {
@@ -96,7 +179,7 @@ public class bIMS {
         // Create("manufacturers", "(ManufacturerName, ManufacturerPhoneNumber, ManufacturerEmail)", "('testManufacturer', 4065956593, 'test@gmail.com')");
 
         // Create item in DB
-        // Create("items", "(Name, Cost, SalePrice, Quantity, Location, ManufacturerID)", "('testItem', 2, 3, 10, '4E', 1)");
+         Create("items", "(ItemName, Cost, SalePrice, Quantity, Location, ManufacturerID)", "('testItem', 2, 3, 10, '4E', 1)");
 
         // Read manufacturers table
         // Read("manufacturers");
@@ -105,7 +188,15 @@ public class bIMS {
         Read("items");
 
         // Update
-        Update();
+        //Update();
+
+        // Delete record from table
+        System.out.println("\nFirst delete attempt, testOrder from orders...");
+        Delete("orders", "testOrder");
+        System.out.println("\nSecond delete attempt, testItem from items...");
+        Delete("items", "testItem");
+        Read("items");
+
     }
 
    public static void main(String[] args) {
