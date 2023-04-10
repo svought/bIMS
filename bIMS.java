@@ -33,31 +33,45 @@ public class bIMS {
 
     private static void Read(String tableName) {
         // Code to obtain information from record(s) from database
+        String sql;
 
         // Try to connect to database using username and password
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection conn = DriverManager.getConnection(url, user, password);
 
+            //TODO Add ManufacturerName to header
+            if (tableName == "items") {
+                sql = "SELECT items.ItemID, items.Name, items.Cost, items.Cost, items.Quantity, items.Location, manufacturers.ManufacturerName " +
+                        "FROM items INNER JOIN manufacturers ON items.ManufacturerID=manufacturers.ManufacturerID;";
+            } else {
+                sql = "SELECT * FROM " + tableName;
+            }
+
             // Execute a select all statement as a test
-            String sql = "SELECT * FROM " + tableName;
             ResultSet result = conn.createStatement().executeQuery(sql);
             ResultSetMetaData metaData = result.getMetaData();
             Statement statement = conn.createStatement();
             statement.execute(sql);
 
-            // Print table header
-            for (int i = 1; i < metaData.getColumnCount(); i++) {
-                System.out.print(metaData.getColumnName(i) + "\t");
-            }
-            System.out.println("\n");
-
             // Print results
-            while(result.next()){
+            if (!result.next()) {
+                System.out.println("No records found");
+            } else {
+                // Print table header
                 for (int i = 1; i < metaData.getColumnCount(); i++) {
-                    System.out.print("\t" + result.getString(i) + "\t\t");
+                    System.out.print(metaData.getColumnName(i) + "\t");
                 }
-                System.out.println();
+                System.out.println("\n");
+
+                // Print results
+                do {
+                    for (int i = 1; i < metaData.getColumnCount(); i++) {
+                        System.out.print("\t" + result.getString(i) + "\t\t");
+                    }
+                    System.out.println();
+                }
+                while(result.next());
             }
 
             // Close result set and connection
@@ -77,15 +91,21 @@ public class bIMS {
         // Code to delete record(s) from database
     }
 
-    public static void bIMSDriver() {
+    private static void bIMSDriver() {
         // Create Manufacturer in DB
         // Create("manufacturers", "(ManufacturerName, ManufacturerPhoneNumber, ManufacturerEmail)", "('testManufacturer', 4065956593, 'test@gmail.com')");
 
         // Create item in DB
-        // Create("items", "(Name, Cost, SalePrice, Quantity, Location, ManufacturerID)", "('testItem', 2, 3, 10, '4E', 0)");
+        // Create("items", "(Name, Cost, SalePrice, Quantity, Location, ManufacturerID)", "('testItem', 2, 3, 10, '4E', 1)");
 
         // Read manufacturers table
-        Read("manufacturers");
+        // Read("manufacturers");
+
+        // Read items table
+        Read("items");
+
+        // Update
+        Update();
     }
 
    public static void main(String[] args) {
