@@ -4,7 +4,7 @@
 A small buisness (lowecase b in bIMS) inventory management system designed to track inventory for small companies and make oredering an easier process.<br /><br />
 
 <h2>Why bIMS</h2>
-I aim to incorperate machine learning later in the developement life cycle to predict the buisnesses needs for a predetermined set of time (weekly, monthly, ect.). bIms will produce a list of predicted items that will need to be ordered, this list will be based on your companies history of sales.<br /><br />
+I aim to incorperate machine learning later in the developement life cycle to predict the buisnesses needs for a predetermined set of time (weekly, monthly, ect.). bIMS will produce a list of predicted items that will need to be ordered, this list will be based on your companies history of sales.<br /><br />
 
 <h2>The Process</h2>
 In creating bIMS, I intned to start with getting the database set up and running. Then I will get a small java program running and interacting with the database from the MYSQL server. After that I will add CRUD capabilities for the user. Over time, I will add more features that will improve the usability of bIMS.<br /><br />
