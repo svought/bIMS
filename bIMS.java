@@ -42,7 +42,7 @@ public class bIMS {
 
             //TODO Add ManufacturerName to header
             if (tableName == "items") {
-                sql = "SELECT items.ItemID, items.ItemName, items.Cost, items.Cost, items.Quantity, items.Location, manufacturers.ManufacturerName " +
+                sql = "SELECT items.ItemID, items.ItemName, items.Cost, items.SalePrice, items.Quantity, items.Location, manufacturers.ManufacturerName " +
                         "FROM items INNER JOIN manufacturers ON items.ManufacturerID=manufacturers.ManufacturerID;";
             } else {
                 sql = "SELECT * FROM " + tableName;
@@ -193,9 +193,9 @@ public class bIMS {
         // Delete record from table
 //        System.out.println("\nDelete attempt, testOrder from orders...");
 //        Delete("orders", "testOrder");
-        System.out.println("\nDelete attempt, testItem with ID 4 from items...");
-        Delete("items", 4);
-        Read("items");
+//        System.out.println("\nDelete attempt, testItem with ID 4 from items...");
+//        Delete("items", 4);
+//        Read("items");
 
     }
 
