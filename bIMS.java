@@ -179,22 +179,22 @@ public class bIMS {
         // Create("manufacturers", "(ManufacturerName, ManufacturerPhoneNumber, ManufacturerEmail)", "('testManufacturer', 4065956593, 'test@gmail.com')");
 
         // Create item in DB
-         Create("items", "(ItemName, Cost, SalePrice, Quantity, Location, ManufacturerID)", "('testItem', 2, 3, 10, '4E', 1)");
+        // Create("items", "(ItemName, Cost, SalePrice, Quantity, Location, ManufacturerID)", "('testItem', 2, 3, 10, '4E', 1)");
 
         // Read manufacturers table
         // Read("manufacturers");
 
         // Read items table
-        Read("items");
+         Read("items");
 
         // Update
-        //Update();
+        // Update();
 
         // Delete record from table
-        System.out.println("\nFirst delete attempt, testOrder from orders...");
-        Delete("orders", "testOrder");
-        System.out.println("\nSecond delete attempt, testItem from items...");
-        Delete("items", "testItem");
+//        System.out.println("\nDelete attempt, testOrder from orders...");
+//        Delete("orders", "testOrder");
+        System.out.println("\nDelete attempt, testItem with ID 4 from items...");
+        Delete("items", 4);
         Read("items");
 
     }
@@ -203,7 +203,3 @@ public class bIMS {
        bIMSDriver();
    }
 }
-
-
-
-
