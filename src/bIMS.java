@@ -1,3 +1,5 @@
+package src;
+
 import java.sql.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -10,7 +12,7 @@ public class bIMS {
     private static final String user = "svought";
     private static final String password = "Svoughtpass00";
 
-    private static void Create(String tableName, String attributes, String contents) {
+    public static void Create(String tableName, String attributes, String contents) {
         // Code to create record in database
 
         // Try to connect to database using username and password
@@ -31,7 +33,7 @@ public class bIMS {
         }
     }
 
-    private static void Read(String tableName) {
+    public static void Read(String tableName) {
         // Code to obtain information from record(s) from database
         String sql;
 
@@ -83,11 +85,11 @@ public class bIMS {
         }
     }
 
-    private static void Update(String tableName) {
+    public static void Update(String tableName) {
         // Code to update record(s) in database
     }
 
-    private static void Delete(String tableName, String recordName) {
+    public static void Delete(String tableName, String recordName) {
         // Code to delete record(s) from database
 
         // Try to connect to database using username and password
@@ -129,7 +131,7 @@ public class bIMS {
         }
     }
 
-    private static void Delete(String tableName, int recordID) {
+    public static void Delete(String tableName, int recordID) {
         // Code to delete record(s) from database
 
         // Try to connect to database using username and password
@@ -174,9 +176,57 @@ public class bIMS {
         }
     }
 
+    public static boolean contains(String tableName, String element) {
+
+        boolean inDB = false;
+
+        // Try to connect to database using username and password
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection conn = DriverManager.getConnection(url, user, password);
+
+            // Execute a select all statement as a test
+            String sql = "SELECT 1 FROM " + tableName + " WHERE ManufacturerName='" + element + "' LIMIT 1";
+            ResultSet result = conn.createStatement().executeQuery(sql);
+            Statement statement = conn.createStatement();
+            statement.execute(sql);
+
+            inDB = result.next();
+
+            conn.close();
+        } catch (ClassNotFoundException | SQLException ex) {
+            System.out.println(ex);
+        }
+        return inDB;
+    }
+
+    // TODO decide if overloaded contains is needed (search table for unique id number? int)
+//    public static boolean contains(String tableName, int element) {
+//
+//        boolean inDB = false;
+//
+//        // Try to connect to database using username and password
+//        try {
+//            Class.forName("com.mysql.cj.jdbc.Driver");
+//            Connection conn = DriverManager.getConnection(url, user, password);
+//
+//            // Execute a select all statement as a test
+//            String sql = "SELECT 1 FROM " + tableName + " WHERE ManufacturerName='" + element + "' LIMIT 1";
+//            ResultSet result = conn.createStatement().executeQuery(sql);
+//            Statement statement = conn.createStatement();
+//            statement.execute(sql);
+//
+//            inDB = result.next();
+//
+//            conn.close();
+//        } catch (ClassNotFoundException | SQLException ex) {
+//            System.out.println(ex);
+//        }
+//        return inDB;
+//    }
+
     private static void bIMSDriver() {
-        // Create Manufacturer in DB
-        // Create("manufacturers", "(ManufacturerName, ManufacturerPhoneNumber, ManufacturerEmail)", "('testManufacturer', 4065956593, 'test@gmail.com')");
+
 
         // Create item in DB
         // Create("items", "(ItemName, Cost, SalePrice, Quantity, Location, ManufacturerID)", "('testItem', 2, 3, 10, '4E', 1)");
@@ -185,7 +235,9 @@ public class bIMS {
         // Read("manufacturers");
 
         // Read items table
-         Read("items");
+        Read("manufacturers");
+
+        //contains("manufacturers", "testManufacturer");
 
         // Update
         // Update();
