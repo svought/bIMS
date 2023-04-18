@@ -34,7 +34,10 @@ My goal with this project is to get hands on experience outside of the class roo
 Database Design <br />
 https://user-images.githubusercontent.com/42819077/230560467-d451148d-92ac-4287-b060-32e8a7c26222.jpg <br /><br />
 
-Database <br />
+Newest Form of Database <br />
+https://user-images.githubusercontent.com/42819077/232896141-4489fb50-6d64-49cf-9e82-eda500210040.png <br /><br />
+
+Original Form of Database <br />
 https://user-images.githubusercontent.com/42819077/230562145-e7be64b4-a214-4b07-829b-89de1dae6160.png <br /><br />
 
 Read method working.<br />
@@ -45,6 +48,9 @@ https://user-images.githubusercontent.com/42819077/230999569-e46e8ef6-c6d8-4b92-
 
 Delete method with recordID (int) working.<br />
 https://user-images.githubusercontent.com/42819077/230999593-d203f083-9bd7-4c71-944c-ab32cdbd7080.png <br /><br />
+
+<h2>Improvements</h2>
+Need to create junction table, Item_Manufacturer, to complete normalization. This junction table will allow me to remove manufacturerID, which is not dependent on the primary key, from the items table. This will complete 2NF for the database. Every table attribute in the DB is dependent on only the table key and thus, with this junction table added, would be in 3NF.
 
 <h2>Conclusion</h2>
 Yet to be determined, still working on and enjoying this project. Will update this section in the future.
