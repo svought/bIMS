@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import static java.lang.Integer.parseInt;
 
 public class bIMS {
 
@@ -44,8 +45,8 @@ public class bIMS {
 
             //TODO Add ManufacturerName to header
             if (tableName == "items") {
-                sql = "SELECT items.ItemID, items.ItemName, items.Cost, items.SalePrice, items.Quantity, items.Location, manufacturers.ManufacturerName " +
-                        "FROM items INNER JOIN manufacturers ON items.ManufacturerID=manufacturers.ManufacturerID;";
+                sql = "SELECT items.ItemID, items.Name, items.Cost, items.SalePrice, items.Quantity, items.Location, manufacturers.Name " +
+                        "FROM items INNER JOIN manufacturers ON items.ID=manufacturers.ID;";
             } else {
                 sql = "SELECT * FROM " + tableName;
             }
@@ -97,24 +98,7 @@ public class bIMS {
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection conn = DriverManager.getConnection(url, user, password);
 
-            // Create record column based on given table name
-            String recordColumn;
-            switch (tableName){
-                case "items":
-                    recordColumn = "ItemName";
-                    break;
-                case "manufacturers":
-                    recordColumn = "ManufacturerName";
-                    break;
-                case "users":
-                    recordColumn = "UserName";
-                    break;
-                default:
-                    System.out.println("Could not locate a column in " + tableName + " table to remove " + recordName);
-                    return;
-            }
-
-            String sql = "DELETE FROM " + tableName + " WHERE " + recordColumn + "='" + recordName + "';";
+            String sql = "DELETE FROM " + tableName + " WHERE Name='" + recordName + "';";
 
             // Execute a select all statement as a test
             Statement statement = conn.createStatement();
@@ -139,27 +123,7 @@ public class bIMS {
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection conn = DriverManager.getConnection(url, user, password);
 
-            // Create record column based on given table name
-            String recordColumn;
-            switch (tableName){
-                case "items":
-                    recordColumn = "ItemID";
-                    break;
-                case "manufacturers":
-                    recordColumn = "ManufacturerID";
-                    break;
-                case "Orders":
-                    recordColumn = "OrderID";
-                    break;
-                case "users":
-                    recordColumn = "UserID";
-                    break;
-                default:
-                    System.out.println("Could not locate a column in " + tableName + " table to remove " + recordID);
-                    return;
-            }
-
-            String sql = "DELETE FROM " + tableName + " WHERE " + recordColumn + "='" + recordID + "';";
+            String sql = "DELETE FROM " + tableName + " WHERE ID='" + recordID + "';";
 
             // Execute a select all statement as a test
             Statement statement = conn.createStatement();
@@ -186,7 +150,7 @@ public class bIMS {
             Connection conn = DriverManager.getConnection(url, user, password);
 
             // Execute a select all statement as a test
-            String sql = "SELECT 1 FROM " + tableName + " WHERE ManufacturerName='" + element + "' LIMIT 1";
+            String sql = "SELECT 1 FROM " + tableName + " WHERE Name='" + element + "' LIMIT 1";
             ResultSet result = conn.createStatement().executeQuery(sql);
             Statement statement = conn.createStatement();
             statement.execute(sql);
@@ -200,33 +164,40 @@ public class bIMS {
         return inDB;
     }
 
-    // TODO decide if overloaded contains is needed (search table for unique id number? int)
-//    public static boolean contains(String tableName, int element) {
-//
-//        boolean inDB = false;
-//
-//        // Try to connect to database using username and password
-//        try {
-//            Class.forName("com.mysql.cj.jdbc.Driver");
-//            Connection conn = DriverManager.getConnection(url, user, password);
-//
-//            // Execute a select all statement as a test
-//            String sql = "SELECT 1 FROM " + tableName + " WHERE ManufacturerName='" + element + "' LIMIT 1";
-//            ResultSet result = conn.createStatement().executeQuery(sql);
-//            Statement statement = conn.createStatement();
-//            statement.execute(sql);
-//
-//            inDB = result.next();
-//
-//            conn.close();
-//        } catch (ClassNotFoundException | SQLException ex) {
-//            System.out.println(ex);
-//        }
-//        return inDB;
-//    }
+    public static int getID(String tableName, String name) {
+        // Code to obtain id from record
+        int ID = -99;
+        String sql;
+
+        // Try to connect to database using username and password
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection conn = DriverManager.getConnection(url, user, password);
+
+            sql = "SELECT ID FROM " + tableName + " WHERE Name='" + name + "'";
+
+            // Execute a select all statement as a test
+            ResultSet result = conn.createStatement().executeQuery(sql);
+            Statement statement = conn.createStatement();
+            statement.execute(sql);
+
+            // Set ID to result value
+            while (result.next()) {
+                ID = parseInt(result.getString("ID"));
+            }
+
+            // Close result set and connection
+            result.close();
+            conn.close();
+        } catch (ClassNotFoundException | SQLException ex) {
+            System.out.println("SQLException: " + ex.getMessage());
+            throw new RuntimeException(ex);
+        }
+
+        return ID;
+    }
 
     private static void bIMSDriver() {
-
 
         // Create item in DB
         // Create("items", "(ItemName, Cost, SalePrice, Quantity, Location, ManufacturerID)", "('testItem', 2, 3, 10, '4E', 1)");
